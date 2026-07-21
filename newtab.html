@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="bg-layer" class="bg-layer"></div>
+    <div id="bg-layer-next" class="bg-layer bg-layer-next"></div>
+    <div class="overlay"></div>
+
+    <main class="app" role="main">
+
+        <header class="top">
+            <div class="top-left">
+                <div class="weekday" id="weekday">-</div>
+                <div class="date" id="date">-</div>
+            </div>
+            <div class="top-right">
+                <div class="time" id="time" aria-live="off">-</div>
+            </div>
+        </header>
+
+
+        <section class="center">
+            <div class="moon-wrap" aria-hidden="true">
+            <canvas id="moon" width="640" height="640"></canvas>
+            </div>
+
+            <div class="moon-meta">
+                <div class="phase-name" id="phaseName">-</div>
+                <div class="phase-stats">
+                    <span class="illumination">-</span>
+                    <span class="dot">.</span>
+                    <span id="moonAge">-</span>
+                </div>
+            </div>
+
+            <form class="search" id="searchForm" role="search" autocomplete="off">
+                <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input"
+                placeholder="Search the web..."
+                aria-label="Search"
+                spellcheck="false"
+                />
+            </form>
+        </section>
+
+        <footer class="bottom">
+            <div class="bottom-left">
+                <div class="stat">
+                    <span class="stat-label">Sunrise</span>
+                    <span id="sunrise">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Sunset</span>
+                    <span id="sunset">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Golden hour</span>
+                    <span id="goldenHour">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Civil twilight</span>
+                    <span id="civilTwilight">-</span>
+                </div>
+            </div>
+
+            <div class="bottom-center">
+                <blockquote class="quote" id="quote">-</blockquote>
+                <div class="quote-author" id="quoteAuthor"></div>
+            </div>
+
+            <div class="bottom-right">
+                <div class="stat">
+                    <span class="stat-label">Location</span>
+                    <span id="locationName">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Latitude</span>
+                    <span id="latitude">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Longitude</span>
+                    <span id="longitude">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Moonrise</span>
+                    <span id="moonrise">-</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Moonset</span>
+                    <span id="moonset">-</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
