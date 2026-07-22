@@ -107,6 +107,59 @@
         </svg>
         </button>
     </main>
-    
+
+    <div id="settingsBackdrop" class="settings-backdrop" hidden></div>
+    <aside id="settingsPanel" class="settings-panel" hidden aria-label="Settings">
+        <div class="settings-head">
+            <h2> Settings</h2>
+            <button id="settingsClose" class="icon-btn" aria-label="Close settings">x</button>
+        </div>
+        <div class="settings-body">
+            <label class="row">
+                <span>Background rotation</span>
+                <input type="checkbox" id="setBgRotation" />
+            </label>
+            <label class="row">
+                <span>Show daily quote</span>
+                <input type="checkbox" id="setShowQuote" />
+            </label>
+            <label class="row">
+                <span> 24-hour time</span>
+                <input type="checkbox" id="set24h"/>
+            </label>
+            <label class="row">
+                <span> Search engine</span>
+                <select id="setEngine">
+                    <option value="google">Google</option>
+                    <option value="bing">Bing</option>
+                    <option value="duckduckgo">DuckDuckGo</option>
+                </select>
+            </label>
+            <label class="row">
+                <span> Use current location</span>
+                <input type="checkbox" id="setGeo"/>
+            </label>
+            <label class="row col">
+                <span> Manual city (name, lat, lon)</span>
+                <div class="triiiple">
+                    <input type="text" id="setCityName" placeholder="City name" />
+                    <input type="number" step="0.0001" id="setCityLat" placeholder="Latitude" />
+                    <input type="number" step="0.0001" id="setCityLon" placeholder="Longitude" />
+                </div>
+            </label>
+            <label class="row">
+                <span> Temperature unit</span>
+                <select id="setTempUnit">
+                    <option value="c">Celsius</option>
+                    <option value="f">Fahrenheit</option>
+                </select>
+            </label>
+            <div class="row actions">
+                <button id="settingsReset" class="ghost-btn">Restore defaults</button>
+                <button id="settingsSave" class="primary-btn">Save</button>
+            </div>
+        </div>
+    </aside>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
