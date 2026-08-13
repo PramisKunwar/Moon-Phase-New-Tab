@@ -1,5 +1,6 @@
 const rad = Math.PI / 180;
 const dayMs = 1000 * 60 * 60 * 24;
+const J1970 = 2440588;
 const J2000 = 2451545;
 
 function toJulian(date) {
@@ -22,6 +23,7 @@ export function moonInfo(date = new Date()) {
   const age = ((diffDays % SYNODIC) + SYNODIC) % SYNODIC;
   const phaseFraction = age / SYNODIC; // 0..1
 
+  // Illumination (0..1) — cosine model
   const illumination = (1 - Math.cos(2 * Math.PI * phaseFraction)) / 2;
 
   const name = phaseName(phaseFraction);
@@ -47,7 +49,7 @@ function phaseName(f) {
   return "Waning Crescent";
 }
 
-const e = rad * 23.4397; 
+const e = rad * 23.4397;
 
 function solarMeanAnomaly(d) {
   return rad * (357.5291 + 0.98560028 * d);
@@ -66,17 +68,21 @@ function rightAscension(l, b) {
     Math.cos(l),
   );
 }
+function siderealTime(d, lw) {
+  return rad * (280.16 + 360.9856235 * d) - lw;
+}
 function altitude(H, phi, dec) {
   return Math.asin(Math.sin(phi) * Math.sin(dec) + Math.cos(phi) * Math.cos(dec) * Math.cos(H));
 }
 function sunCoords(d) {
   const M = solarMeanAnomaly(d);
   const L = eclipticLongitude(M);
-  return { dec: declination(L, 0), ra: rightAscension(L, 0) }
+  return { dec: declination(L, 0), ra: rightAscension(L, 0) };
 }
 
 const J0 = 0.0009;
 function julianCycle(d, lw) {
+  return Math.round(d - J0 - lw / (2 * Math.PI));
 }
 function approxTransit(Ht, lw, n) {
   return J0 + (Ht + lw) / (2 * Math.PI) + n;
@@ -89,7 +95,7 @@ function hourAngle(h, phi, d) {
 }
 function getSetJ(h, lw, phi, dec, n, M, L) {
   const w = hourAngle(h, phi, dec);
-  const a = approxTransit(w, lw, n)
+  const a = approxTransit(w, lw, n);
   return solarTransitJ(a, M, L);
 }
 
@@ -102,7 +108,7 @@ function sunTimes(date, lat, lon) {
   const M = solarMeanAnomaly(ds);
   const L = eclipticLongitude(M);
   const dec = declination(L, 0);
-  const Jnoon = solarTransitJ(ds, M, L)
+  const Jnoon = solarTransitJ(ds, M, L);
 
   const events = {
     solarNoon: fromJulian(Jnoon),
@@ -113,12 +119,12 @@ function sunTimes(date, lat, lon) {
     ["sunrise", -0.833, "sunset"],
     ["dawnCivil", -6, "duskCivil"],
     ["dawnAstro", -18, "duskAstro"],
-    ["goldenHourEnd", 6, "goldenHour"]
+    ["goldenHourEnd", 6, "goldenHour"],
   ];
 
   for (const [morn, angle, eve] of angles) {
     const Jset = getSetJ(angle * rad, lw, phi, dec, n, M, L);
-    const Jrise = Jnoon - (Jset - Jnoon)
+    const Jrise = Jnoon - (Jset - Jnoon);
     events[morn] = fromJulian(Jrise);
     events[eve] = fromJulian(Jset);
   }
@@ -152,7 +158,7 @@ function moonTimes(date, lat, lon) {
     let roots = 0;
     let x1 = 0, x2 = 0;
     if (d >= 0) {
-      const dx = Math.sqrt(d) / (Math.abs(a) * 2)
+      const dx = Math.sqrt(d) / (Math.abs(a) * 2);
       x1 = xe - dx;
       x2 = xe + dx;
       if (Math.abs(x1) <= 1) roots++;
@@ -175,12 +181,15 @@ function moonTimes(date, lat, lon) {
   return result;
 }
 
+function hoursLater(date, h) {
+  return new Date(date.valueOf() + (h * dayMs) / 24);
+}
 function getMoonAlt(date, lat, lon) {
   const lw = rad * -lon;
   const phi = rad * lat;
   const d = toDays(date);
   const c = moonCoords(d);
-  const H = siderealTime(d, lw) - c.ra
+  const H = siderealTime(d, lw) - c.ra;
   return altitude(H, phi, c.dec);
 }
 
@@ -193,6 +202,10 @@ export function computeAll(date, lat, lon) {
     sunrise: sun.sunrise,
     sunset: sun.sunset,
     goldenHour: sun.goldenHour,
+    goldenHourEnd: sun.goldenHourEnd,
+    civilDawn: sun.dawnCivil,
+    civilDusk: sun.duskCivil,
+    astroDawn: sun.dawnAstro,
     astroDusk: sun.duskAstro,
     moonrise: moonRS.rise,
     moonset: moonRS.set,
