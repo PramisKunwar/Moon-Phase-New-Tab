@@ -1,165 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>New Tab</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <div id="bg-layer" class="bg-layer"></div>
     <div id="bg-layer-next" class="bg-layer bg-layer-next"></div>
     <div class="overlay"></div>
 
     <main class="app" role="main">
+      <header class="top">
+        <div class="top-left">
+          <div class="weekday" id="weekday">—</div>
+          <div class="date" id="date">—</div>
+        </div>
+        <div class="top-right">
+          <div class="time" id="time" aria-live="off">—</div>
+        </div>
+      </header>
 
-        <header class="top">
-            <div class="top-left">
-                <div class="weekday" id="weekday">-</div>
-                <div class="date" id="date">-</div>
-            </div>
-            <div class="top-right">
-                <div class="time" id="time" aria-live="off">-</div>
-            </div>
-        </header>
+      <section class="center">
+        <div class="moon-wrap" aria-hidden="true">
+          <canvas id="moon" width="640" height="640"></canvas>
+        </div>
 
+        <div class="moon-meta">
+          <div class="phase-name" id="phaseName">—</div>
+          <div class="phase-stats">
+            <span id="illumination">—</span>
+            <span class="dot">·</span>
+            <span id="moonAge">—</span>
+          </div>
+        </div>
 
-        <section class="center">
-            <div class="moon-wrap" aria-hidden="true">
-            <canvas id="moon" width="640" height="640"></canvas>
-            </div>
+        <form class="search" id="searchForm" role="search" autocomplete="off">
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search the web"
+            aria-label="Search"
+            spellcheck="false"
+          />
+        </form>
+      </section>
 
-            <div class="moon-meta">
-                <div class="phase-name" id="phaseName">-</div>
-                <div class="phase-stats">
-                    <span class="illumination">-</span>
-                    <span class="dot">.</span>
-                    <span id="moonAge">-</span>
-                </div>
-            </div>
+      <footer class="bottom">
+        <div class="bottom-left">
+          <div class="stat"><span class="stat-label">Sunrise</span><span id="sunrise">—</span></div>
+          <div class="stat"><span class="stat-label">Sunset</span><span id="sunset">—</span></div>
+          <div class="stat"><span class="stat-label">Golden hour</span><span id="goldenHour">—</span></div>
+          <div class="stat"><span class="stat-label">Civil twilight</span><span id="civilTwilight">—</span></div>
+        </div>
 
-            <form class="search" id="searchForm" role="search" autocomplete="off">
-                <input 
-                type="text" 
-                id="searchInput" 
-                class="search-input"
-                placeholder="Search the web..."
-                aria-label="Search"
-                spellcheck="false"
-                />
-            </form>
-        </section>
+        <div class="bottom-center">
+          <blockquote class="quote" id="quote">—</blockquote>
+          <div class="quote-author" id="quoteAuthor"></div>
+        </div>
 
-        <footer class="bottom">
-            <div class="bottom-left">
-                <div class="stat">
-                    <span class="stat-label">Sunrise</span>
-                    <span id="sunrise">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Sunset</span>
-                    <span id="sunset">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Golden hour</span>
-                    <span id="goldenHour">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Civil twilight</span>
-                    <span id="civilTwilight">-</span>
-                </div>
-            </div>
+        <div class="bottom-right">
+          <div class="stat"><span class="stat-label">Location</span><span id="locationName">—</span></div>
+          <div class="stat"><span class="stat-label">Latitude</span><span id="lat">—</span></div>
+          <div class="stat"><span class="stat-label">Longitude</span><span id="lon">—</span></div>
+          <div class="stat"><span class="stat-label">Moonrise</span><span id="moonrise">—</span></div>
+          <div class="stat"><span class="stat-label">Moonset</span><span id="moonset">—</span></div>
+        </div>
+      </footer>
 
-            <div class="bottom-center">
-                <blockquote class="quote" id="quote">-</blockquote>
-                <div class="quote-author" id="quoteAuthor"></div>
-            </div>
-
-            <div class="bottom-right">
-                <div class="stat">
-                    <span class="stat-label">Location</span>
-                    <span id="locationName">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Latitude</span>
-                    <span id="latitude">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Longitude</span>
-                    <span id="longitude">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Moonrise</span>
-                    <span id="moonrise">-</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Moonset</span>
-                    <span id="moonset">-</span>
-                </div>
-            </div>
-        </footer>
-
-        <button id="settingsBtn" class="settings-btn" aria-label="Open settings" title="Settings">
-            <svg width="18" height="18" viewBox = "0 0 24 24" fill="none"
-            stroke = "currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin = "round" aria-hidden="true">
-            <circle cx ="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path>
+      <button id="settingsBtn" class="settings-btn" aria-label="Open settings" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path>
         </svg>
-        </button>
+      </button>
     </main>
 
     <div id="settingsBackdrop" class="settings-backdrop" hidden></div>
     <aside id="settingsPanel" class="settings-panel" hidden aria-label="Settings">
-        <div class="settings-head">
-            <h2> Settings</h2>
-            <button id="settingsClose" class="icon-btn" aria-label="Close settings">x</button>
+      <div class="settings-head">
+        <h2>Settings</h2>
+        <button id="settingsClose" class="icon-btn" aria-label="Close settings">×</button>
+      </div>
+      <div class="settings-body">
+        <label class="row">
+          <span>Background rotation</span>
+          <input type="checkbox" id="setBgRotation" />
+        </label>
+        <label class="row">
+          <span>Show daily quote</span>
+          <input type="checkbox" id="setQuotes" />
+        </label>
+        <label class="row">
+          <span>24-hour time</span>
+          <input type="checkbox" id="set24h" />
+        </label>
+        <label class="row">
+          <span>Search engine</span>
+          <select id="setEngine">
+            <option value="google">Google</option>
+            <option value="duckduckgo">DuckDuckGo</option>
+            <option value="bing">Bing</option>
+          </select>
+        </label>
+        <label class="row">
+          <span>Use current location</span>
+          <input type="checkbox" id="setGeo" />
+        </label>
+        <label class="row col">
+          <span>Manual city (name, lat, lon)</span>
+          <div class="triple">
+            <input type="text" id="setCityName" placeholder="City name" />
+            <input type="number" step="0.0001" id="setCityLat" placeholder="Latitude" />
+            <input type="number" step="0.0001" id="setCityLon" placeholder="Longitude" />
+          </div>
+        </label>
+        <label class="row">
+          <span>Temperature unit</span>
+          <select id="setTempUnit">
+            <option value="c">Celsius</option>
+            <option value="f">Fahrenheit</option>
+          </select>
+        </label>
+        <div class="row actions">
+          <button id="settingsReset" class="ghost-btn">Restore defaults</button>
+          <button id="settingsSave" class="primary-btn">Save</button>
         </div>
-        <div class="settings-body">
-            <label class="row">
-                <span>Background rotation</span>
-                <input type="checkbox" id="setBgRotation" />
-            </label>
-            <label class="row">
-                <span>Show daily quote</span>
-                <input type="checkbox" id="setShowQuote" />
-            </label>
-            <label class="row">
-                <span> 24-hour time</span>
-                <input type="checkbox" id="set24h"/>
-            </label>
-            <label class="row">
-                <span> Search engine</span>
-                <select id="setEngine">
-                    <option value="google">Google</option>
-                    <option value="bing">Bing</option>
-                    <option value="duckduckgo">DuckDuckGo</option>
-                </select>
-            </label>
-            <label class="row">
-                <span> Use current location</span>
-                <input type="checkbox" id="setGeo"/>
-            </label>
-            <label class="row col">
-                <span> Manual city (name, lat, lon)</span>
-                <div class="triiiple">
-                    <input type="text" id="setCityName" placeholder="City name" />
-                    <input type="number" step="0.0001" id="setCityLat" placeholder="Latitude" />
-                    <input type="number" step="0.0001" id="setCityLon" placeholder="Longitude" />
-                </div>
-            </label>
-            <label class="row">
-                <span> Temperature unit</span>
-                <select id="setTempUnit">
-                    <option value="c">Celsius</option>
-                    <option value="f">Fahrenheit</option>
-                </select>
-            </label>
-            <div class="row actions">
-                <button id="settingsReset" class="ghost-btn">Restore defaults</button>
-                <button id="settingsSave" class="primary-btn">Save</button>
-            </div>
-        </div>
+      </div>
     </aside>
+
     <script type="module" src="js/app.js"></script>
-</body>
+  </body>
 </html>
