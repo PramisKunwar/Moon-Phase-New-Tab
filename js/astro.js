@@ -13,7 +13,6 @@ function toDays(date) {
   return toJulian(date) - J2000;
 }
 
-
 const SYNODIC = 29.53058867;
 const KNOWN_NEW_MOON = Date.UTC(2000, 0, 6, 18, 14, 0) / 1000;
 
@@ -21,18 +20,17 @@ export function moonInfo(date = new Date()) {
   const now = date.getTime() / 1000;
   const diffDays = (now - KNOWN_NEW_MOON) / 86400;
   const age = ((diffDays % SYNODIC) + SYNODIC) % SYNODIC;
-  const phaseFraction = age / SYNODIC; // 0..1
+  const phaseFraction = age / SYNODIC;
 
-  // Illumination (0..1) — cosine model
   const illumination = (1 - Math.cos(2 * Math.PI * phaseFraction)) / 2;
 
   const name = phaseName(phaseFraction);
   const waxing = phaseFraction < 0.5;
 
   return {
-    age, 
-    phaseFraction, 
-    illumination, 
+    age,
+    phaseFraction,
+    illumination,
     name,
     waxing,
   };
