@@ -9,6 +9,10 @@ export const DEFAULTS = {
   useGeo: true,
   cityName: "",
   cityLat: null,
+  cityLon: null,
+  tempUnit: "c",
+  quoteHistory: [],
+  lastBgIndex: -1,
   lastBgDate: "",
 };
 
@@ -20,7 +24,9 @@ export async function loadSettings() {
   }
   try {
     const raw = localStorage.getItem("moonphase.settings");
+    return { ...DEFAULTS, ...(raw ? JSON.parse(raw) : {}) };
   } catch {
+    return { ...DEFAULTS };
   }
 }
 
@@ -30,17 +36,18 @@ export async function saveSettings(patch) {
       chrome.storage.sync.set(patch, () => resolve());
     });
   }
-  const current = await loadSettings()
+  const current = await loadSettings();
   localStorage.setItem(
     "moonphase.settings",
-    JSON.stringify({ ...current, ...patch })
+    JSON.stringify({ ...current, ...patch }),
   );
 }
 
 export async function resetSettings() {
   if (hasChromeStorage) {
     return new Promise((resolve) => {
+      chrome.storage.sync.clear(() => resolve());
     });
   }
-  localStorage.removeItem("moonphase.settings")
+  localStorage.removeItem("moonphase.settings");
 }
