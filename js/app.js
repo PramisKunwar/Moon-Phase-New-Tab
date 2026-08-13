@@ -109,7 +109,6 @@ async function refreshAll() {
   }
 }
 
-
 async function initSearch() {
   const form = document.getElementById("searchForm");
   const input = document.getElementById("searchInput");
@@ -122,7 +121,6 @@ async function initSearch() {
     window.location.href = base + encodeURIComponent(q);
   });
 }
-
 
 async function main() {
   await refreshAll();
