@@ -10,7 +10,7 @@
   --bg: var(--black);
   --fg: var(--white);
   --fg-muted: var(--medium-gray);
-  --fg-dim: var(--dark-gray)
+  --fg-dim: var(--dark-gray);
 
   --radius: 14px;
   --radius-lg: 18px;
@@ -18,7 +18,7 @@
   --font-sans:
     "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -46,6 +46,8 @@ body {
   position: fixed;
   inset: 0;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   opacity: 1;
   transition: opacity 800ms var(--ease);
   z-index: 0;
@@ -63,7 +65,6 @@ body {
   pointer-events: none;
 }
 
-/* App layout */
 .app {
   position: relative;
   z-index: 2;
@@ -83,6 +84,8 @@ body {
 }
 .weekday {
   font-size: 15px;
+  font-weight: 400;
+  color: var(--fg-muted);
   letter-spacing: 0.02em;
 }
 .date {
@@ -110,10 +113,12 @@ body {
   animation: fadeIn 800ms var(--ease) 300ms forwards;
 }
 .moon-wrap {
-  width: min(38vh, 320px)
+  width: min(38vh, 320px);
   height: min(38vh, 320px);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  animation: float 9s var(--ease) infinite
+  animation: float 9s var(--ease) infinite;
 }
 #moon {
   width: 100%;
@@ -150,11 +155,12 @@ body {
   padding: 14px 22px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(17, 17, 17, 0.5);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: var(--fg);
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 300
+  font-weight: 300;
   border-radius: 999px;
   outline: none;
   transition:
@@ -181,7 +187,8 @@ body {
 .bottom-left {
   display: flex;
   flex-direction: column;
-
+  gap: 6px;
+  text-align: left;
 }
 .bottom-right {
   display: flex;
@@ -210,6 +217,7 @@ body {
   text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 0.12em;
+  min-width: 84px;
 }
 .bottom-right .stat-label {
   text-align: right;
@@ -224,7 +232,12 @@ body {
   line-height: 1.55;
   font-weight: 300;
 }
-
+.quote-author {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--fg-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .settings-btn {
@@ -238,7 +251,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -249,15 +262,12 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
-
-}
 .settings-btn:hover,
 .settings-btn:focus-visible {
   color: var(--fg);
   border-color: rgba(255, 255, 255, 0.3);
-  outline: none
+  outline: none;
 }
-
 
 .settings-backdrop {
   position: fixed;
@@ -390,7 +400,9 @@ body {
   background: var(--white);
 }
 .row input[type="checkbox"]:checked::after {
-
+  transform: translateX(14px);
+  background: var(--black);
+}
 .primary-btn,
 .ghost-btn {
   border-radius: 999px;
@@ -403,7 +415,7 @@ body {
   font-family: var(--font-sans);
   transition:
     color 300ms var(--ease),
-
+    background 300ms var(--ease);
 }
 .primary-btn {
   background: var(--white);
@@ -414,18 +426,18 @@ body {
   background: var(--light-gray);
 }
 .ghost-btn:hover {
-  color: var(--fg)
+  color: var(--fg);
   border-color: rgba(255, 255, 255, 0.35);
 }
-
 
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0)
+    transform: translateY(0);
   }
 }
 @keyframes float {
@@ -437,7 +449,6 @@ body {
     transform: translateY(-3px);
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   .moon-wrap,
@@ -452,8 +463,10 @@ body {
   }
 }
 
-
 @media (max-width: 900px) {
+  .app {
+    padding: 28px 20px;
+  }
   .bottom {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -462,6 +475,7 @@ body {
   .bottom-left,
   .bottom-right {
     align-items: center;
+    text-align: center;
   }
   .bottom-right .stat,
   .bottom-left .stat {
