@@ -3,6 +3,15 @@
 This is a Chrome extension that changes your new tab page.  
 It shows a calm and nice dashboard with the moon as the main focus.
 
+---
+
+[Download Here](Moon-Phase-New-Tab.zip)
+
+---
+
+[Guide Video](https://youtu.be/-H-Dsab4MHM)
+
+---
 
 ## What it does:
 
