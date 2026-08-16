@@ -5,7 +5,7 @@ It shows a calm and nice dashboard with the moon as the main focus.
 
 ---
 
-[Download Here](Moon-Phase-New-Tab.zip)
+[Download Here](https://github.com/PramisKunwar/Moon-Phase-New-Tab/releases/tag/Moon)
 
 ---
 
